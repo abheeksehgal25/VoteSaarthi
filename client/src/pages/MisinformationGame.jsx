@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAudio } from '../context/AudioContext'
 import AudioToggle from '../components/AudioToggle'
-import axios from 'axios'
+import api from '../utils/api'
 import { getTranslation } from '../utils/translations'
 
 const MisinformationGame = () => {
@@ -22,7 +22,7 @@ const MisinformationGame = () => {
 
   const fetchScenarios = async () => {
     try {
-      const response = await axios.get('/api/game/scenarios')
+      const response = await api.get('/api/game/scenarios')
       console.log('Fetched scenarios:', response.data)
       console.log('First scenario:', response.data[0])
       console.log('First scenario content:', response.data[0]?.content)

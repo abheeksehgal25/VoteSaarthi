@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAudio } from '../context/AudioContext'
 import AudioToggle from '../components/AudioToggle'
-import axios from 'axios'
+import api from '../utils/api'
 import { getTranslation } from '../utils/translations'
 
 const KnowYourCandidates = () => {
@@ -25,7 +25,7 @@ const KnowYourCandidates = () => {
 
   const fetchStates = async () => {
     try {
-      const response = await axios.get('/api/states')
+      const response = await api.get('/api/states')
       setStates(response.data)
     } catch (error) {
       console.error('Error fetching states:', error)
@@ -46,7 +46,7 @@ const KnowYourCandidates = () => {
     speak(text, currentLanguage)
     
     try {
-      const response = await axios.get(`/api/constituencies?state=${stateId}`)
+      const response = await api.get(`/api/constituencies?state=${stateId}`)
       setConstituencies(response.data)
     } catch (error) {
       console.error('Error fetching constituencies:', error)
