@@ -65,7 +65,7 @@ const KnowYourCandidates = () => {
     speak(text, currentLanguage)
 
     try {
-      const response = await axios.get(`/api/candidates?constituency=${constituencyId}`)
+      const response = await api.get(`/api/candidates?constituency=${constituencyId}`)
       setCandidates(response.data)
     } catch (error) {
       console.error('Error fetching candidates:', error)
