@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-neutral-light text-neutral-dark;
+  }
+  
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  .touch-target {
+    @apply min-h-touch min-w-touch flex items-center justify-center;
+  }
+  
+  .touch-button {
+    @apply touch-target rounded-2xl font-semibold text-touch-lg transition-all duration-200 active:scale-95;
+  }
+  
+  .card-elevated {
+    @apply bg-white rounded-3xl shadow-lg p-6;
+  }
+}
