@@ -6,6 +6,7 @@ export const translations = {
     howVotingWorks: 'How Voting Works',
     knowYourCandidates: 'Know Your Candidates',
     spotMisinformation: 'Spot Misinformation',
+    voterHelp: 'Voter Help Assistant',
     back: 'Back to Home',
     
     // KnowYourCandidates
@@ -34,6 +35,11 @@ export const translations = {
     yes: 'Yes',
     no: 'No',
     detailsFor: 'Details for',
+    liabilities: 'Liabilities',
+    notAvailable: 'Not available',
+    notDisclosed: 'Not Disclosed',
+    allCandidatesEqual: 'All candidates are shown with equal importance. Information is from official affidavits.',
+    platformDisclaimer: 'This platform does not recommend any candidate. Make your own informed decision.',
     
     // HowVotingWorks
     votingTitle: 'How Voting Works',
@@ -58,6 +64,50 @@ export const translations = {
     incorrect: 'Incorrect. Try again!',
     nextScenario: 'Next Scenario',
     gameComplete: 'Game Complete!',
+    socialMediaPost: 'Social Media Post',
+    whatsappMessage: 'WhatsApp Message',
+    whatDoYouThink: 'What do you think about this?',
+    factualInformation: 'Factual Information',
+    emotionalManipulation: 'Emotional Manipulation',
+    misleadingFalse: 'Misleading / False',
+    scenarioOf: 'Scenario {{current}} of {{total}}',
+    neutralPlatform: 'This platform is politically neutral and provides only publicly verified information.',
+    officialNotice: 'Official Notice',
+    whatToWatchFor: 'What to Watch For:',
+    emotionUsed: 'Emotion Used:',
+    tip: 'Tip:',
+    correctAnswer: 'Correct!',
+    notQuite: 'Not quite',
+    nextScenarioButton: 'Next Scenario',
+    finishButton: 'Finish',
+    learningToolMessage: 'This is a learning tool. There\'s no scoring. Take your time to understand each scenario.',
+    
+    // Asset/Liability ranges
+    lessThan1Lakh: '< ₹1 Lakh',
+    '1To10Lakh': '₹1–10 Lakh',
+    '10LakhTo1Crore': '₹10 Lakh–1 Crore',
+    '1To5Crore': '₹1–5 Crore',
+    '5CrorePlus': '₹5 Crore+',
+    
+    // State names
+    delhi: 'Delhi',
+    
+    // Constituency names  
+    newDelhi: 'NEW DELHI',
+    rajinderNagar: 'RAJINDER NAGAR',
+    patelNagar: 'PATEL NAGAR',
+    rkPuram: 'R K PURAM',
+    greaterKailash: 'GREATER KAILASH',
+    delhiCantt: 'DELHI CANTT',
+    
+    // Education levels
+    '12thPass': '12th Pass',
+    '10thPass': '10th Pass',
+    '8thPass': '8th Pass',
+    graduate: 'Graduate',
+    postGraduate: 'Post Graduate',
+    graduateProfessional: 'Graduate Professional',
+    doctorate: 'Doctorate',
     
     // Audio messages
     audioEnabled: 'Audio enabled',
@@ -72,6 +122,7 @@ export const translations = {
     howVotingWorks: 'वोटिंग कैसे काम करती है',
     knowYourCandidates: 'अपने उम्मीदवारों को जानें',
     spotMisinformation: 'गलत सूचना पहचानें',
+    voterHelp: 'मतदाता सहायक',
     back: 'होम पर वापस',
     
     // KnowYourCandidates
@@ -100,6 +151,11 @@ export const translations = {
     yes: 'हाँ',
     no: 'नहीं',
     detailsFor: 'विवरण',
+    liabilities: 'देनदारियां',
+    notAvailable: 'उपलब्ध नहीं',
+    notDisclosed: 'खुलासा नहीं किया',
+    allCandidatesEqual: 'सभी उम्मीदवारों को समान महत्व के साथ दिखाया गया है। जानकारी आधिकारिक हलफनामों से है।',
+    platformDisclaimer: 'यह मंच किसी भी उम्मीदवार की सिफारिश नहीं करता है। अपना सूचित निर्णय लें।',
     
     // HowVotingWorks
     votingTitle: 'वोटिंग कैसे काम करती है',
@@ -124,6 +180,49 @@ export const translations = {
     incorrect: 'गलत। फिर से कोशिश करें!',
     nextScenario: 'अगला परिदृश्य',
     gameComplete: 'खेल पूरा हुआ!',
+    socialMediaPost: 'सोशल मीडिया पोस्ट',
+    whatsappMessage: 'व्हाट्सएप संदेश',
+    whatDoYouThink: 'आप इस बारे में क्या सोचते हैं?',
+    factualInformation: 'तथ्यात्मक जानकारी',
+    emotionalManipulation: 'भावनात्मक हेरफेर',
+    misleadingFalse: 'भ्रामक / गलत',
+    scenarioOf: 'परिदृश्य {{current}} / {{total}}',
+    neutralPlatform: 'यह प्लेटफ़ॉर्म राजनीतिक रूप से तटस्थ है और केवल सार्वजनिक रूप से सत्यापित जानकारी प्रदान करता है।',    officialNotice: 'आधिकारिक सूचना',
+    whatToWatchFor: 'किस बात का ध्यान रखें:',
+    emotionUsed: 'प्रयुक्त भावना:',
+    tip: 'सुझाव:',
+    correctAnswer: 'सही!',
+    notQuite: 'बिल्कुल सही नहीं',
+    nextScenarioButton: 'अगला परिदृश्य',
+    finishButton: 'समाप्त',
+    learningToolMessage: 'यह एक शिक्षण उपकरण है। कोई अंक नहीं हैं। प्रत्येक परिदृश्य को समझने के लिए अपना समय लें।',
+    
+    // Asset/Liability ranges
+    lessThan1Lakh: '< ₹1 लाख',
+    '1To10Lakh': '₹1–10 लाख',
+    '10LakhTo1Crore': '₹10 लाख–1 करोड़',
+    '1To5Crore': '₹1–5 करोड़',
+    '5CrorePlus': '₹5 करोड़+',
+    
+    // State names
+    delhi: 'दिल्ली',
+    
+    // Constituency names
+    newDelhi: 'नई दिल्ली',
+    rajinderNagar: 'राजिंदर नगर',
+    patelNagar: 'पटेल नगर',
+    rkPuram: 'आर के पुरम',
+    greaterKailash: 'ग्रेटर कैलाश',
+    delhiCantt: 'दिल्ली छावनी',
+    
+    // Education levels
+    '12thPass': '12वीं पास',
+    '10thPass': '10वीं पास',
+    '8thPass': '8वीं पास',
+    graduate: 'स्नातक',
+    postGraduate: 'परास्नातक',
+    graduateProfessional: 'स्नातक व्यावसायिक',
+    doctorate: 'डॉक्टरेट',
     
     // Audio messages
     audioEnabled: 'ऑडियो चालू',
@@ -166,6 +265,65 @@ export const translations = {
     spotMisinformation: 'തെറ്റായ വിവരങ്ങൾ കണ്ടെത്തുക',
     languageChanged: 'ഭാഷ മലയാളത്തിലേക്ക് മാറ്റി',
   }
+}
+
+// Helper function to translate asset/liability ranges
+export const translateAssetRange = (range, language) => {
+  if (!range || range === 'Not Available') return getTranslation('notAvailable', language)
+  
+  const rangeMap = {
+    '< ₹1 Lakh': 'lessThan1Lakh',
+    '₹1–10 Lakh': '1To10Lakh',
+    '₹10 Lakh–1 Crore': '10LakhTo1Crore',
+    '₹1–5 Crore': '1To5Crore',
+    '₹5 Crore+': '5CrorePlus'
+  }
+  
+  const key = rangeMap[range]
+  return key ? getTranslation(key, language) : range
+}
+
+// Helper function to translate state names
+export const translateStateName = (stateName, language) => {
+  const stateMap = {
+    'Delhi': 'delhi'
+  }
+  
+  const key = stateMap[stateName]
+  return key ? getTranslation(key, language) : stateName
+}
+
+// Helper function to translate constituency names
+export const translateConstituencyName = (constituencyName, language) => {
+  const constituencyMap = {
+    'NEW DELHI': 'newDelhi',
+    'RAJINDER NAGAR': 'rajinderNagar',
+    'PATEL NAGAR': 'patelNagar',
+    'R K PURAM': 'rkPuram',
+    'GREATER KAILASH': 'greaterKailash',
+    'DELHI CANTT': 'delhiCantt'
+  }
+  
+  const key = constituencyMap[constituencyName]
+  return key ? getTranslation(key, language) : constituencyName
+}
+
+// Helper function to translate education levels
+export const translateEducation = (education, language) => {
+  if (!education || education === 'Not Available') return getTranslation('notAvailable', language)
+  
+  const educationMap = {
+    '12th Pass': '12thPass',
+    '10th Pass': '10thPass',
+    '8th Pass': '8thPass',
+    'Graduate': 'graduate',
+    'Post Graduate': 'postGraduate',
+    'Graduate Professional': 'graduateProfessional',
+    'Doctorate': 'doctorate'
+  }
+  
+  const key = educationMap[education]
+  return key ? getTranslation(key, language) : education
 }
 
 export const getTranslation = (key, language) => {

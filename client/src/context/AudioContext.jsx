@@ -11,8 +11,14 @@ export const useAudio = () => {
 }
 
 export const AudioProvider = ({ children }) => {
-  const [isAudioEnabled, setIsAudioEnabled] = useState(true)
-  const [currentLanguage, setCurrentLanguage] = useState('en-IN')
+  const [isAudioEnabled, setIsAudioEnabled] = useState(() => {
+    const saved = localStorage.getItem('audioEnabled')
+    return saved !== null ? JSON.parse(saved) : true
+  })
+  const [currentLanguage, setCurrentLanguage] = useState(() => {
+    const saved = localStorage.getItem('selectedLanguage')
+    return saved || 'en-IN'
+  })
   const [synth, setSynth] = useState(null)
   const [availableVoices, setAvailableVoices] = useState([])
   const [isVoicesLoaded, setIsVoicesLoaded] = useState(false)
@@ -47,6 +53,16 @@ export const AudioProvider = ({ children }) => {
       setTimeout(loadVoices, 500)
     }
   }, [])
+
+  // Save audio enabled state to localStorage
+  useEffect(() => {
+    localStorage.setItem('audioEnabled', JSON.stringify(isAudioEnabled))
+  }, [isAudioEnabled])
+
+  // Save language to localStorage
+  useEffect(() => {
+    localStorage.setItem('selectedLanguage', currentLanguage)
+  }, [currentLanguage])
 
   const findBestVoice = (langCode) => {
     if (!isVoicesLoaded || availableVoices.length === 0) return null

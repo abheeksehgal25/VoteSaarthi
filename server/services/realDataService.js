@@ -24,6 +24,14 @@ class RealDataService {
   }
 
   /**
+   * Clear the cache - useful after re-seeding database
+   */
+  clearCache() {
+    this.cache.clear()
+    console.log('🧹 Cache cleared')
+  }
+
+  /**
    * Rate-limited request wrapper
    */
   async rateLimitedRequest(url) {
@@ -90,6 +98,9 @@ class RealDataService {
     // Try to fetch constituency info for MyNeta scraping
     const constituency = await Constituency.findById(constituencyId).lean()
     
+    // TEMPORARILY DISABLED - MyNeta scraping returns corrupt data
+    // TODO: Fix URL patterns and HTML parsing before re-enabling
+    /*
     if (constituency) {
       // Try scraping from MyNeta first
       try {
@@ -115,6 +126,7 @@ class RealDataService {
         console.error('⚠️ MyNeta scraping failed, falling back to database:', error.message)
       }
     }
+    */
 
     // Fallback to database
     const candidates = await Candidate.find({ constituency: constituencyId })
@@ -297,15 +309,19 @@ class RealDataService {
       .map(candidate => ({
         _id: candidate._id,
         name: candidate.name,
+        nameHi: candidate.nameHi,
         party: candidate.party || 'Independent',
         symbol: candidate.symbol || '⭐',
         education: candidate.education || 'Not Available',
-        criminalCases: candidate.criminalCases === true,
+        criminalCases: candidate.criminalCases || 0,
         criminalCasesDetails: candidate.criminalCasesDetails || 
           (candidate.criminalCases ? 'Has criminal cases' : 'No criminal cases'),
-        assets: this.normalizeAssets(candidate.assets),
+        assets: candidate.assets || 'Not Available',
+        liabilities: candidate.liabilities || 'Not Available',
         age: candidate.age,
-        constituency: candidate.constituency
+        constituency: candidate.constituency,
+        dataSource: candidate.dataSource,
+        isWinner: candidate.isWinner || false
         // Explicitly exclude: rankings, popularity, predictions, endorsements
       }))
   }

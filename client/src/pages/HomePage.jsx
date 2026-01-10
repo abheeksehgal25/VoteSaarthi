@@ -89,7 +89,21 @@ const HomePage = () => {
               <span className="text-4xl" role="img" aria-label="shield">
                 🛡️
               </span>
-              <span>Spot Misinformation</span>
+              <span>{getTranslation('spotMisinformation', currentLanguage)}</span>
+            </div>
+          </button>
+
+          {/* Voter Help Assistant */}
+          <button
+            onClick={() => handleNavigate('/voter-help', 'Get help with voting questions')}
+            className="w-full touch-button bg-purple-500 text-white hover:bg-purple-600 shadow-xl"
+            aria-label="Get answers to common voting questions"
+          >
+            <div className="flex items-center justify-center gap-4">
+              <span className="text-4xl" role="img" aria-label="help">
+                ❓
+              </span>
+              <span>{getTranslation('voterHelp', currentLanguage)}</span>
             </div>
           </button>
         </div>
@@ -97,7 +111,7 @@ const HomePage = () => {
         {/* Footer Notice */}
         <div className="mt-12 text-center">
           <p className="text-sm text-neutral">
-            This platform is politically neutral and provides only publicly verified information.
+            {getTranslation('neutralPlatform', currentLanguage)}
           </p>
         </div>
       </main>

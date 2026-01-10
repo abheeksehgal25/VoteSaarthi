@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "seed": "node seed.js"
+    "seed": "node seed.js",
+    "seed:delhi": "node seedDelhi.js"
   },
   "dependencies": {
     "axios": "^1.13.2",

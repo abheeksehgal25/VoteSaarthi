@@ -8,13 +8,15 @@ const router = express.Router()
 router.get('/', async (req, res) => {
   try {
     const constituencyId = req.query.constituency
+    console.log('🔍 API Request - Constituency ID:', constituencyId)
     if (!constituencyId) {
       return res.status(400).json({ error: 'Constituency parameter is required' })
     }
     const candidates = await realDataService.getCandidates(constituencyId)
+    console.log('📤 Returning', candidates.length, 'candidates:', candidates.map(c => c.name).join(', '))
     res.json(candidates)
   } catch (error) {
-    console.error('Error fetching candidates:', error)
+    console.error('❌ Error fetching candidates:', error)
     res.status(500).json({ error: error.message })
   }
 })

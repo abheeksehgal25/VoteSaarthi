@@ -1,142 +1,21 @@
 import mongoose from 'mongoose'
-import dotenv from 'dotenv'
-import State from './models/State.js'
-import Constituency from './models/Constituency.js'
-import Candidate from './models/Candidate.js'
 import Scenario from './models/Scenario.js'
+import dotenv from 'dotenv'
 
 dotenv.config()
 
-const seedData = async () => {
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://sehgalabheek:sCUD5ksQIETWQGnF@cluster0.nozc9is.mongodb.net/voter-awareness'
+
+const seedScenarios = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/voter-awareness')
+    await mongoose.connect(MONGODB_URI)
     console.log('Connected to MongoDB')
 
-    // Clear existing data
-    await State.deleteMany({})
-    await Constituency.deleteMany({})
-    await Candidate.deleteMany({})
+    // Clear existing scenarios
     await Scenario.deleteMany({})
-    console.log('Cleared existing data')
+    console.log('Cleared existing scenarios')
 
-    // Seed States
-    const states = await State.insertMany([
-      { name: 'Maharashtra', code: 'MH' },
-      { name: 'Karnataka', code: 'KA' },
-      { name: 'Tamil Nadu', code: 'TN' },
-    ])
-    console.log('✅ States seeded')
-
-    // Seed Constituencies
-    const constituencies = await Constituency.insertMany([
-      { name: 'Mumbai South', state: states[0]._id, code: 'MH-S01' },
-      { name: 'Mumbai North', state: states[0]._id, code: 'MH-S02' },
-      { name: 'Bangalore South', state: states[1]._id, code: 'KA-S01' },
-      { name: 'Chennai Central', state: states[2]._id, code: 'TN-S01' },
-    ])
-    console.log('✅ Constituencies seeded')
-
-    // Seed Candidates (Sample data - replace with real affidavit data)
-    await Candidate.insertMany([
-      {
-        name: 'Anjali Kumar',
-        constituency: constituencies[0]._id,
-        party: 'Independent',
-        symbol: '🌟',
-        education: 'Graduate (B.A.)',
-        criminalCases: false,
-        assets: '₹5-10 Lakhs',
-        age: 45,
-        profession: 'Social Worker',
-        previousPositions: ['Ward Councilor (2015-2020)', 'NGO Founder'],
-        keyIssues: [
-          { issue: 'Education', stance: 'Free quality education in government schools with better infrastructure' },
-          { issue: 'Healthcare', stance: 'Primary health centers in every 5km radius' },
-          { issue: 'Infrastructure', stance: 'Better roads and public transport connectivity' }
-        ],
-        manifesto: 'Focus on grassroots development with emphasis on education and healthcare for all.',
-        contactInfo: {
-          phone: '+91-9876543210',
-          email: 'anjali.kumar@example.com',
-          website: 'www.anjalikumar2024.com'
-        }
-      },
-      {
-        name: 'Rajesh Sharma',
-        constituency: constituencies[0]._id,
-        party: 'Independent',
-        symbol: '🏠',
-        education: 'Post Graduate (M.Com)',
-        criminalCases: false,
-        assets: '₹50 Lakhs - 1 Crore',
-        age: 52,
-        profession: 'Business Owner',
-        previousPositions: ['President of Chamber of Commerce', 'Municipal Committee Member'],
-        keyIssues: [
-          { issue: 'Employment', stance: 'Create 10,000 local jobs through industrial parks' },
-          { issue: 'Small Business', stance: 'Easy loans and tax breaks for small businesses' },
-          { issue: 'Infrastructure', stance: 'Modern market complexes and business hubs' }
-        ],
-        manifesto: 'Economic development through job creation and supporting local businesses.',
-        contactInfo: {
-          phone: '+91-9876543211',
-          email: 'rajesh.sharma@example.com'
-        }
-      },
-      {
-        name: 'Meera Patel',
-        constituency: constituencies[0]._id,
-        party: 'Independent',
-        symbol: '🌺',
-        education: '10th Pass',
-        criminalCases: false,
-        assets: '₹2-5 Lakhs',
-        age: 38,
-        profession: 'Community Organizer',
-        previousPositions: ['Self-Help Group Leader', 'Anganwadi Worker (10 years)'],
-        keyIssues: [
-          { issue: 'Women Empowerment', stance: 'Skill training and microfinance for women' },
-          { issue: 'Child Nutrition', stance: 'Nutritious meals in all anganwadis' },
-          { issue: 'Rural Development', stance: 'Better water supply and sanitation facilities' }
-        ],
-        manifesto: 'Empowering women and ensuring child welfare through community-driven programs.',
-        contactInfo: {
-          phone: '+91-9876543212',
-          email: 'meera.patel@example.com'
-        }
-      },
-      {
-        name: 'Vikram Singh',
-        constituency: constituencies[1]._id,
-        party: 'Independent',
-        symbol: '⚡',
-        education: 'Doctorate (Ph.D.)',
-        criminalCases: true,
-        criminalCasesDetails: '2 pending cases',
-        assets: '₹2-5 Crores',
-        age: 58,
-        profession: 'University Professor (Retired)',
-        previousPositions: ['State Education Advisory Board Member', 'University Vice Chancellor'],
-        keyIssues: [
-          { issue: 'Education Reform', stance: 'Modernize curriculum and increase teacher training' },
-          { issue: 'Youth Employment', stance: 'Skill development centers in every district' },
-          { issue: 'Technology', stance: 'Digital literacy programs for all age groups' }
-        ],
-        manifesto: 'Building a knowledge-based economy through quality education and skill development.',
-        contactInfo: {
-          phone: '+91-9876543213',
-          email: 'vikram.singh@example.com',
-          website: 'www.vikramsingh.in'
-        },
-        socialMedia: {
-          twitter: '@vikramsingh',
-          facebook: 'VikramSinghOfficial'
-        }
-      },
-    ])
-    console.log('✅ Candidates seeded')
-
-    // Seed Misinformation Game Scenarios
+    // Seed bilingual scenarios
     await Scenario.insertMany([
       {
         content: {
@@ -271,14 +150,13 @@ const seedData = async () => {
         isActive: true
       },
     ])
-    console.log('✅ Game scenarios seeded')
 
-    console.log('🎉 All data seeded successfully!')
+    console.log('✅ 6 bilingual scenarios seeded successfully!')
     process.exit(0)
   } catch (error) {
-    console.error('❌ Error seeding data:', error)
+    console.error('❌ Error seeding scenarios:', error)
     process.exit(1)
   }
 }
 
-seedData()
+seedScenarios()

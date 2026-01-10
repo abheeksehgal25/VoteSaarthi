@@ -2,11 +2,7 @@ import { useAudio } from '../context/AudioContext'
 
 const languages = [
   { code: 'en-IN', name: 'English', icon: '🇬🇧' },
-  { code: 'hi-IN', name: 'हिंदी', icon: '🇮🇳' },
-  { code: 'ta-IN', name: 'தमிழ்', icon: '🇮🇳' },
-  { code: 'te-IN', name: 'తెలుగు', icon: '🇮🇳' },
-  { code: 'kn-IN', name: 'ಕನ್ನಡ', icon: '🇮🇳' },
-  { code: 'ml-IN', name: 'മലയാളം', icon: '🇮🇳' },
+  { code: 'hi-IN', name: 'हिंदी', icon: '🇮🇳' }
 ]
 
 const LanguageSelector = () => {

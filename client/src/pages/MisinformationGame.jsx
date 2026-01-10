@@ -30,34 +30,70 @@ const MisinformationGame = () => {
       setLoading(false)
     } catch (error) {
       console.error('Error fetching scenarios:', error)
-      // Demo data
+      // Demo data with bilingual content
       const demoScenarios = [
         {
           _id: '1',
-          content: '"Vote for Party X or your ration card will be cancelled!"',
+          content: {
+            'en-IN': '"Vote for us or your ration card will be cancelled!"',
+            'hi-IN': '"हमें वोट दें या आपका राशन कार्ड रद्द कर दिया जाएगा!"'
+          },
           type: 'whatsapp',
           correctAnswer: 'misleading',
-          explanation: 'This is misleading. Your ration card cannot be cancelled based on how you vote. Your vote is secret.',
-          emotionUsed: 'Fear',
-          tip: 'Be careful of messages that threaten you or create fear about voting.'
+          explanation: {
+            'en-IN': 'This is misleading. Your ration card cannot be cancelled based on how you vote. Your vote is secret.',
+            'hi-IN': 'यह भ्रामक है। आपके वोट के आधार पर आपका राशन कार्ड रद्द नहीं किया जा सकता। आपका वोट गुप्त है।'
+          },
+          emotionUsed: {
+            'en-IN': 'Fear',
+            'hi-IN': 'डर'
+          },
+          tip: {
+            'en-IN': 'Be careful of messages that threaten you or create fear about voting.',
+            'hi-IN': 'ऐसे संदेशों से सावधान रहें जो आपको धमकाते हैं या वोटिंग के बारे में डर पैदा करते हैं।'
+          }
         },
         {
           _id: '2',
-          content: '"Breaking News: Voting date changed to next week!"',
+          content: {
+            'en-IN': '"Breaking News: Voting date changed to next week!"',
+            'hi-IN': '"ब्रेकिंग न्यूज़: वोटिंग की तारीख अगले सप्ताह के लिए बदल दी गई!"'
+          },
           type: 'social',
           correctAnswer: 'misleading',
-          explanation: 'This is false. Always check official Election Commission website for voting dates. Don\'t trust random messages.',
-          emotionUsed: 'Confusion',
-          tip: 'Verify important election information from official sources only.'
+          explanation: {
+            'en-IN': 'This is false. Always check official Election Commission website for voting dates. Don\'t trust random messages.',
+            'hi-IN': 'यह गलत है। वोटिंग की तारीखों के लिए हमेशा आधिकारिक चुनाव आयोग की वेबसाइट देखें। अनजान संदेशों पर भरोसा न करें।'
+          },
+          emotionUsed: {
+            'en-IN': 'Confusion',
+            'hi-IN': 'भ्रम'
+          },
+          tip: {
+            'en-IN': 'Verify important election information from official sources only.',
+            'hi-IN': 'महत्वपूर्ण चुनाव जानकारी केवल आधिकारिक स्रोतों से सत्यापित करें।'
+          }
         },
         {
           _id: '3',
-          content: '"Election on May 15th. Polling booths open 7 AM to 6 PM. - Election Commission of India"',
+          content: {
+            'en-IN': '"Election on May 15th. Polling booths open 7 AM to 6 PM. - Election Commission of India"',
+            'hi-IN': '"15 मई को चुनाव। मतदान केंद्र सुबह 7 बजे से शाम 6 बजे तक खुले रहेंगे। - भारत निर्वाचन आयोग"'
+          },
           type: 'information',
           correctAnswer: 'information',
-          explanation: 'This is factual information from the official Election Commission. It provides clear facts without trying to influence your vote.',
-          emotionUsed: 'None',
-          tip: 'Official communications are clear, factual, and don\'t use emotional language.'
+          explanation: {
+            'en-IN': 'This is factual information from the official Election Commission. It provides clear facts without trying to influence your vote.',
+            'hi-IN': 'यह आधिकारिक चुनाव आयोग से तथ्यात्मक जानकारी है। यह आपके वोट को प्रभावित करने की कोशिश किए बिना स्पष्ट तथ्य प्रदान करता है।'
+          },
+          emotionUsed: {
+            'en-IN': 'None',
+            'hi-IN': 'कोई नहीं'
+          },
+          tip: {
+            'en-IN': 'Official communications are clear, factual, and don\'t use emotional language.',
+            'hi-IN': 'आधिकारिक संचार स्पष्ट, तथ्यात्मक होते हैं और भावनात्मक भाषा का उपयोग नहीं करते।'
+          }
         },
       ]
       console.log('Using demo scenarios:', demoScenarios)
@@ -73,12 +109,16 @@ const MisinformationGame = () => {
     const scenario = scenarios[currentIndex]
     const isCorrect = answer === scenario.correctAnswer
     
+    const explanation = typeof scenario.explanation === 'object' 
+      ? scenario.explanation[currentLanguage] || scenario.explanation['en-IN'] 
+      : scenario.explanation
+    
     if (isCorrect) {
-      const correctText = getTranslation('correct', currentLanguage)
-      speak(`${correctText} ${scenario.explanation}`, currentLanguage)
+      const correctText = getTranslation('correctAnswer', currentLanguage)
+      speak(`${correctText} ${explanation}`, currentLanguage)
     } else {
-      const incorrectText = getTranslation('incorrect', currentLanguage)
-      speak(`${incorrectText} ${scenario.explanation}`, currentLanguage)
+      const incorrectText = getTranslation('notQuite', currentLanguage)
+      speak(`${incorrectText} ${explanation}`, currentLanguage)
     }
   }
 
@@ -150,7 +190,7 @@ const MisinformationGame = () => {
           ))}
         </div>
         <p className="text-center mt-2 text-neutral text-touch-base">
-          Scenario {currentIndex + 1} of {scenarios.length}
+          {getTranslation('scenarioOf', currentLanguage).replace('{{current}}', currentIndex + 1).replace('{{total}}', scenarios.length)}
         </p>
       </div>
 
@@ -163,9 +203,9 @@ const MisinformationGame = () => {
         <div className="card-elevated mb-8">
           <div className="mb-6">
             <span className="inline-block bg-amber-100 text-amber-800 px-4 py-2 rounded-full text-sm font-semibold">
-              {scenario.type === 'whatsapp' ? '📱 WhatsApp Message' : 
-               scenario.type === 'social' ? '📢 Social Media Post' : 
-               '📰 Official Notice'}
+              {scenario.type === 'whatsapp' ? `📱 ${getTranslation('whatsappMessage', currentLanguage)}` : 
+               scenario.type === 'social' ? `📢 ${getTranslation('socialMediaPost', currentLanguage)}` : 
+               `📰 ${getTranslation('officialNotice', currentLanguage)}`}
             </span>
           </div>
 
@@ -173,7 +213,7 @@ const MisinformationGame = () => {
           <div className="bg-white border-2 border-gray-300 rounded-2xl p-6 mb-8">
             {scenario.content ? (
               <p className="text-touch-lg leading-relaxed">
-                {scenario.content}
+                {typeof scenario.content === 'object' ? scenario.content[currentLanguage] || scenario.content['en-IN'] : scenario.content}
               </p>
             ) : (
               <p className="text-touch-lg leading-relaxed text-red-500">
@@ -184,7 +224,7 @@ const MisinformationGame = () => {
 
           {/* Question */}
           <h2 className="text-touch-xl font-bold mb-6 text-center">
-            What do you think about this?
+            {getTranslation('whatDoYouThink', currentLanguage)}
           </h2>
 
           {/* Answer Buttons */}
@@ -197,7 +237,7 @@ const MisinformationGame = () => {
               >
                 <div className="flex items-center justify-center gap-3">
                   <span className="text-3xl">✔</span>
-                  <span>Factual Information</span>
+                  <span>{getTranslation('factualInformation', currentLanguage)}</span>
                 </div>
               </button>
 
@@ -208,7 +248,7 @@ const MisinformationGame = () => {
               >
                 <div className="flex items-center justify-center gap-3">
                   <span className="text-3xl">⚠</span>
-                  <span>Emotional Manipulation</span>
+                  <span>{getTranslation('emotionalManipulation', currentLanguage)}</span>
                 </div>
               </button>
 
@@ -219,7 +259,7 @@ const MisinformationGame = () => {
               >
                 <div className="flex items-center justify-center gap-3">
                   <span className="text-3xl">❌</span>
-                  <span>Misleading / False</span>
+                  <span>{getTranslation('misleadingFalse', currentLanguage)}</span>
                 </div>
               </button>
             </div>
@@ -235,21 +275,21 @@ const MisinformationGame = () => {
                   : 'bg-red-100 border-2 border-red-500'
               }`}>
                 <p className="text-touch-lg font-bold mb-2">
-                  {selectedAnswer === scenario.correctAnswer ? '✅ Correct!' : '❌ Not quite'}
+                  {selectedAnswer === scenario.correctAnswer ? `✅ ${getTranslation('correctAnswer', currentLanguage)}` : `❌ ${getTranslation('notQuite', currentLanguage)}`}
                 </p>
                 <p className="text-touch-base">
-                  {scenario.explanation}
+                  {typeof scenario.explanation === 'object' ? scenario.explanation[currentLanguage] || scenario.explanation['en-IN'] : scenario.explanation}
                 </p>
               </div>
 
               {/* Learning Points */}
               <div className="bg-blue-50 p-6 rounded-2xl">
-                <h3 className="text-touch-lg font-bold mb-3">What to Watch For:</h3>
+                <h3 className="text-touch-lg font-bold mb-3">{getTranslation('whatToWatchFor', currentLanguage)}</h3>
                 <p className="text-touch-base mb-3">
-                  <strong>Emotion Used:</strong> {scenario.emotionUsed}
+                  <strong>{getTranslation('emotionUsed', currentLanguage)}</strong> {typeof scenario.emotionUsed === 'object' ? scenario.emotionUsed[currentLanguage] || scenario.emotionUsed['en-IN'] : scenario.emotionUsed}
                 </p>
                 <p className="text-touch-base">
-                  <strong>Tip:</strong> {scenario.tip}
+                  <strong>{getTranslation('tip', currentLanguage)}</strong> {typeof scenario.tip === 'object' ? scenario.tip[currentLanguage] || scenario.tip['en-IN'] : scenario.tip}
                 </p>
               </div>
 
@@ -258,7 +298,7 @@ const MisinformationGame = () => {
                 onClick={handleNext}
                 className="w-full touch-button bg-primary text-white hover:bg-primary-dark"
               >
-                {currentIndex < scenarios.length - 1 ? 'Next Scenario' : 'Finish'}
+                {currentIndex < scenarios.length - 1 ? getTranslation('nextScenarioButton', currentLanguage) : getTranslation('finishButton', currentLanguage)}
               </button>
             </div>
           )}
@@ -267,7 +307,7 @@ const MisinformationGame = () => {
         {/* Learning Notice */}
         <div className="card-elevated bg-purple-50">
           <p className="text-touch-base text-center">
-            💡 This is a learning tool. There's no scoring. Take your time to understand each scenario.
+            💡 {getTranslation('learningToolMessage', currentLanguage)}
           </p>
         </div>
       </main>

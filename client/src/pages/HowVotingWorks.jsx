@@ -162,43 +162,69 @@ const HowVotingWorks = () => {
       </div>
 
       {/* Step Content */}
-      <main className="container mx-auto px-4 py-8 max-w-2xl">
+      <main className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="card-elevated">
-          {/* Icon */}
-          <div className="text-center mb-6">
-            <span className="text-8xl" role="img" aria-label={step.title}>
-              {step.icon}
-            </span>
-          </div>
+          {/* Two Column Layout: Video and Content Side by Side */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Left Column: Video */}
+            <div className="rounded-2xl overflow-hidden bg-black">
+              <video
+                key={currentStep}
+                className="w-full h-full object-cover"
+                controls
+                autoPlay
+                muted
+                playsInline
+              >
+                <source src={`/videos/step${currentStep + 1}.mp4`} type="video/mp4" />
+                <p className="text-white p-4">
+                  {currentLanguage === 'hi-IN' 
+                    ? 'आपका ब्राउज़र वीडियो टैग का समर्थन नहीं करता है।'
+                    : 'Your browser does not support the video tag.'
+                  }
+                </p>
+              </video>
+            </div>
 
-          {/* Title */}
-          <h2 className="text-touch-2xl font-bold text-center mb-4">
-            {step.title}
-          </h2>
+            {/* Right Column: Content */}
+            <div className="flex flex-col justify-center">
+              {/* Icon */}
+              <div className="text-center mb-4">
+                <span className="text-6xl" role="img" aria-label={step.title}>
+                  {step.icon}
+                </span>
+              </div>
 
-          {/* Description */}
-          <p className="text-touch-lg text-neutral text-center mb-8">
-            {step.description}
-          </p>
+              {/* Title */}
+              <h2 className="text-touch-2xl font-bold text-center mb-4">
+                {step.title}
+              </h2>
 
-          {/* Details */}
-          <div className="bg-blue-50 rounded-2xl p-6 mb-8">
-            <ul className="space-y-3">
-              {step.details.map((detail, index) => (
-                <li key={index} className="flex gap-3 text-touch-base">
-                  <span className="text-secondary text-xl">✓</span>
-                  <span>{detail}</span>
-                </li>
-              ))}
-            </ul>
+              {/* Description */}
+              <p className="text-touch-lg text-neutral text-center mb-6">
+                {step.description}
+              </p>
+
+              {/* Details */}
+              <div className="bg-blue-50 rounded-2xl p-6">
+                <ul className="space-y-3">
+                  {step.details.map((detail, index) => (
+                    <li key={index} className="flex gap-3 text-touch-base">
+                      <span className="text-secondary text-xl flex-shrink-0">✓</span>
+                      <span>{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
 
           {/* Navigation Buttons */}
-          <div className="flex gap-4">
+          <div className="flex justify-center gap-4 mt-8">
             {currentStep > 0 && (
               <button
                 onClick={handlePrevious}
-                className="touch-button bg-gray-200 text-neutral-dark hover:bg-gray-300 flex-1"
+                className="touch-button bg-gray-200 text-neutral-dark hover:bg-gray-300 w-40"
                 aria-label="Go to previous step"
               >
                 {currentLanguage === 'hi-IN' ? 'पिछला' : 'Previous'}
@@ -206,7 +232,7 @@ const HowVotingWorks = () => {
             )}
             <button
               onClick={handleNext}
-              className="touch-button bg-primary text-white hover:bg-primary-dark flex-1"
+              className="touch-button bg-primary text-white hover:bg-primary-dark w-40"
               aria-label={currentStep < steps.length - 1 ? 'Go to next step' : 'Finish and return home'}
             >
               {currentStep < steps.length - 1 

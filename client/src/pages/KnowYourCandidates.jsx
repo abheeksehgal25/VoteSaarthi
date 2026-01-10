@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAudio } from '../context/AudioContext'
 import AudioToggle from '../components/AudioToggle'
 import api from '../utils/api'
-import { getTranslation } from '../utils/translations'
+import { getTranslation, translateAssetRange, translateStateName, translateConstituencyName, translateEducation } from '../utils/translations'
 
 const KnowYourCandidates = () => {
   const [states, setStates] = useState([])
@@ -66,9 +66,11 @@ const KnowYourCandidates = () => {
 
     try {
       const response = await api.get(`/api/candidates?constituency=${constituencyId}`)
+      console.log('✅ Candidates loaded:', response.data)
       setCandidates(response.data)
     } catch (error) {
-      console.error('Error fetching candidates:', error)
+      console.error('❌ Error fetching candidates:', error)
+      console.error('Error details:', error.response?.data || error.message)
       // Demo data
       setCandidates([
         {
@@ -119,7 +121,7 @@ const KnowYourCandidates = () => {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Selection Section */}
         <div className="card-elevated mb-8">
-          <h2 className="text-touch-xl font-bold mb-6">Select Your Area</h2>
+          <h2 className="text-touch-xl font-bold mb-6">{currentLanguage === 'hi-IN' ? 'अपना क्षेत्र चुनें' : 'Select Your Area'}</h2>
           
           {/* State Selector */}
           <div className="mb-6">
@@ -135,7 +137,7 @@ const KnowYourCandidates = () => {
               <option value="">{getTranslation('chooseState', currentLanguage)}</option>
               {states.map((state) => (
                 <option key={state._id} value={state._id}>
-                  {state.name}
+                  {translateStateName(state.name, currentLanguage)}
                 </option>
               ))}
             </select>
@@ -156,7 +158,7 @@ const KnowYourCandidates = () => {
                 <option value="">{getTranslation('chooseConstituency', currentLanguage)}</option>
                 {constituencies.map((constituency) => (
                   <option key={constituency._id} value={constituency._id}>
-                    {constituency.name}
+                    {translateConstituencyName(constituency.name, currentLanguage)}
                   </option>
                 ))}
               </select>
@@ -175,13 +177,13 @@ const KnowYourCandidates = () => {
           <div>
             <div className="mb-4">
               <p className="text-touch-base text-neutral">
-                All candidates are shown with equal importance. Information is from official affidavits.
+                {getTranslation('allCandidatesEqual', currentLanguage)}
               </p>
             </div>
             
             <div className="space-y-4">
-              {candidates.map((candidate) => (
-                <div key={candidate._id} className="card-elevated bg-white">
+              {candidates.map((candidate, index) => (
+                <div key={candidate._id || `candidate-${index}`} className="card-elevated bg-white">
                   <button
                     onClick={() => {
                       if (expandedCandidate === candidate._id) {
@@ -201,7 +203,9 @@ const KnowYourCandidates = () => {
                           {candidate.symbol}
                         </span>
                         <div>
-                          <h3 className="text-touch-xl font-bold">{candidate.name}</h3>
+                          <h3 className="text-touch-xl font-bold">
+                            {currentLanguage === 'hi-IN' && candidate.nameHi ? candidate.nameHi : candidate.name}
+                          </h3>
                           <p className="text-touch-base text-neutral">{candidate.party}</p>
                           {candidate.age && <p className="text-touch-sm text-neutral">{getTranslation('age', currentLanguage)}: {candidate.age}</p>}
                         </div>
@@ -215,22 +219,26 @@ const KnowYourCandidates = () => {
                     <div className="grid grid-cols-2 gap-4 mb-4">
                       <div>
                         <span className="text-touch-sm text-neutral block">{getTranslation('education', currentLanguage)}:</span>
-                        <span className="text-touch-base font-semibold">{candidate.education || 'Not available'}</span>
+                        <span className="text-touch-base font-semibold">{translateEducation(candidate.education, currentLanguage)}</span>
                       </div>
                       <div>
                         <span className="text-touch-sm text-neutral block">{getTranslation('criminalCases', currentLanguage)}:</span>
-                        <span className={`text-touch-base font-semibold ${candidate.criminalCases ? 'text-red-600' : 'text-green-600'}`}>
-                          {candidate.criminalCases ? getTranslation('yes', currentLanguage) : getTranslation('no', currentLanguage)}
+                        <span className={`text-touch-base font-semibold ${candidate.criminalCases > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                          {candidate.criminalCases > 0 ? `${candidate.criminalCases} ${currentLanguage === 'hi-IN' ? 'मामले' : 'case'}${candidate.criminalCases > 1 && currentLanguage === 'en-IN' ? 's' : ''}` : getTranslation('noCriminalCases', currentLanguage)}
                         </span>
                       </div>
                       <div>
                         <span className="text-touch-sm text-neutral block">{getTranslation('assets', currentLanguage)}:</span>
-                        <span className="text-touch-base font-semibold">{candidate.assets || 'Not available'}</span>
+                        <span className="text-touch-base font-semibold">{translateAssetRange(candidate.assets, currentLanguage)}</span>
                       </div>
-                      {candidate.profession && (
+                      <div>
+                        <span className="text-touch-sm text-neutral block">{getTranslation('liabilities', currentLanguage)}:</span>
+                        <span className="text-touch-base font-semibold">{translateAssetRange(candidate.liabilities, currentLanguage)}</span>
+                      </div>
+                      {candidate.age && (
                         <div>
-                          <span className="text-touch-sm text-neutral block">{getTranslation('profession', currentLanguage)}:</span>
-                          <span className="text-touch-base font-semibold">{candidate.profession}</span>
+                          <span className="text-touch-sm text-neutral block">{getTranslation('age', currentLanguage)}:</span>
+                          <span className="text-touch-base font-semibold">{candidate.age}</span>
                         </div>
                       )}
                     </div>
@@ -348,7 +356,7 @@ const KnowYourCandidates = () => {
         {candidates.length > 0 && (
           <div className="mt-8 card-elevated bg-yellow-50">
             <p className="text-touch-base text-center">
-              ℹ️ This platform does not recommend any candidate. Make your own informed decision.
+              ℹ️ {getTranslation('platformDisclaimer', currentLanguage)}
             </p>
           </div>
         )}

@@ -5,6 +5,10 @@ const candidateSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  nameHi: {
+    type: String,
+    default: ''
+  },
   constituency: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Constituency',
@@ -23,8 +27,9 @@ const candidateSchema = new mongoose.Schema({
     required: true
   },
   criminalCases: {
-    type: Boolean,
-    default: false
+    type: Number,  // Changed from Boolean to Number to store count
+    default: 0,
+    min: 0  // Cannot be negative
   },
   criminalCasesDetails: {
     type: String,
@@ -32,10 +37,45 @@ const candidateSchema = new mongoose.Schema({
   },
   assets: {
     type: String,
-    required: true
+    required: true,
+    enum: [
+      '< ₹1 Lakh',
+      '₹1–10 Lakh',
+      '₹10 Lakh–1 Crore',
+      '₹1–5 Crore',
+      '₹5 Crore+',
+      'Not Available'
+    ]
+  },
+  liabilities: {
+    type: String,
+    default: '< ₹1 Lakh',
+    enum: [
+      '< ₹1 Lakh',
+      '₹1–10 Lakh',
+      '₹10 Lakh–1 Crore',
+      '₹1–5 Crore',
+      '₹5 Crore+',
+      'Not Available'
+    ]
   },
   age: {
-    type: Number
+    type: Number,
+    min: 18,  // Minimum voting age
+    max: 120  // Realistic upper limit
+  },
+  dataSource: {
+    type: String,
+    enum: ['ADR', 'MyNeta', 'ECI', 'Manual'],
+    default: 'Manual'
+  },
+  lastUpdated: {
+    type: Date,
+    default: Date.now
+  },
+  isWinner: {
+    type: Boolean,
+    default: false
   },
   // Detailed information
   profession: {

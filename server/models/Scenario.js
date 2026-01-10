@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const scenarioSchema = new mongoose.Schema({
   content: {
-    type: String,
+    type: mongoose.Schema.Types.Mixed,
     required: true
   },
   type: {
@@ -16,15 +16,15 @@ const scenarioSchema = new mongoose.Schema({
     required: true
   },
   explanation: {
-    type: String,
+    type: mongoose.Schema.Types.Mixed,
     required: true
   },
   emotionUsed: {
-    type: String,
+    type: mongoose.Schema.Types.Mixed,
     required: true
   },
   tip: {
-    type: String,
+    type: mongoose.Schema.Types.Mixed,
     required: true
   },
   language: {
