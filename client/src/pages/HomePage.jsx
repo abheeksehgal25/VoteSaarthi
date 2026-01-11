@@ -93,6 +93,20 @@ const HomePage = () => {
             </div>
           </button>
 
+          {/* Understanding Election Systems */}
+          <button
+            onClick={() => handleNavigate('/election-cycles', 'electionCyclesTitle')}
+            className="w-full touch-button bg-indigo-500 text-white hover:bg-indigo-600 shadow-xl"
+            aria-label="Learn about election systems in India"
+          >
+            <div className="flex items-center justify-center gap-4">
+              <span className="text-4xl" role="img" aria-label="calendar">
+                📅
+              </span>
+              <span>{getTranslation('electionCycles', currentLanguage)}</span>
+            </div>
+          </button>
+
           {/* Voter Help Assistant */}
           <button
             onClick={() => handleNavigate('/voter-help', 'Get help with voting questions')}

@@ -7,8 +7,13 @@ export const translations = {
     knowYourCandidates: 'Know Your Candidates',
     spotMisinformation: 'Spot Misinformation',
     voterHelp: 'Voter Help Assistant',
+    electionCycles: 'Understanding Election Systems',
     listenAgain: 'Listen Again',
     back: 'Back to Home',
+    
+    // ElectionCycles
+    electionCyclesTitle: 'Understanding Election Systems',
+    electionCyclesSubtitle: 'Learn how elections are conducted in India',
     
     // KnowYourCandidates
     candidatesTitle: 'Know Your Candidates',
@@ -124,8 +129,13 @@ export const translations = {
     knowYourCandidates: 'अपने उम्मीदवारों को जानें',
     spotMisinformation: 'गलत सूचना पहचानें',
     voterHelp: 'मतदाता सहायक',
+    electionCycles: 'चुनाव प्रणाली को समझें',
     listenAgain: 'फिर से सुनें',
     back: 'होम पर वापस',
+    
+    // ElectionCycles
+    electionCyclesTitle: 'चुनाव प्रणाली को समझें',
+    electionCyclesSubtitle: 'भारत में चुनाव कैसे आयोजित किए जाते हैं, यह जानें',
     
     // KnowYourCandidates
     candidatesTitle: 'अपने उम्मीदवारों को जानें',

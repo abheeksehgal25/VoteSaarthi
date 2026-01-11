@@ -42,7 +42,11 @@ export const AudioProvider = ({ children }) => {
         const voices = synthInstance.getVoices()
         setAvailableVoices(voices)
         setIsVoicesLoaded(true)
-        console.log('Available voices:', voices.map(v => `${v.name} (${v.lang})`))
+        console.log('📢 Available voices:', voices.map(v => `${v.name} (${v.lang})`))
+        
+        // Show Hindi-specific voices
+        const hindiVoices = voices.filter(v => v.lang.includes('hi') || v.name.toLowerCase().includes('hindi'))
+        console.log('🇮🇳 Hindi voices found:', hindiVoices.length > 0 ? hindiVoices.map(v => `${v.name} (${v.lang})`) : 'NONE - Hindi voices not installed!')
       }
 
       loadVoices()
@@ -69,23 +73,38 @@ export const AudioProvider = ({ children }) => {
     
     const config = languageConfig[langCode] || languageConfig['en-IN']
     
-    // Try exact voice name matches
+    console.log(`🔍 Looking for voice for: ${langCode}`)
+    
+    // Try exact language code match first (most accurate)
+    const exactMatch = availableVoices.find(v => v.lang === langCode)
+    if (exactMatch) {
+      console.log(`✅ Found exact match: ${exactMatch.name} (${exactMatch.lang})`)
+      return exactMatch
+    }
+    
+    // Try language code prefix match (e.g., 'hi' matches 'hi-IN')
+    const langPrefix = langCode.split('-')[0]
+    const prefixMatch = availableVoices.find(v => v.lang.startsWith(langPrefix))
+    if (prefixMatch) {
+      console.log(`✅ Found prefix match: ${prefixMatch.name} (${prefixMatch.lang})`)
+      return prefixMatch
+    }
+    
+    // Try voice name matches
     for (const voiceName of config.voiceNames) {
-      const voice = availableVoices.find(v => v.name.includes(voiceName) || voiceName.includes(v.name))
+      const voice = availableVoices.find(v => 
+        v.name.includes(voiceName) || 
+        voiceName.includes(v.name) ||
+        v.name.toLowerCase().includes(voiceName.toLowerCase())
+      )
       if (voice) {
-        console.log(`✅ Found voice: ${voice.name} for ${langCode}`)
+        console.log(`✅ Found voice by name: ${voice.name} (${voice.lang})`)
         return voice
       }
     }
     
-    // Try language code match
-    const langVoice = availableVoices.find(v => v.lang.startsWith(config.code.split('-')[0]))
-    if (langVoice) {
-      console.log(`✅ Found language match: ${langVoice.name}`)
-      return langVoice
-    }
-    
-    // Fallback
+    // Fallback to another language
+    console.log(`⚠️ No ${langCode} voice found, trying fallback: ${config.fallbackCode}`)
     const fallbackVoice = availableVoices.find(v => v.lang.startsWith(config.fallbackCode.split('-')[0]))
     if (fallbackVoice) {
       console.log(`⚠️ Using fallback: ${fallbackVoice.name}`)
