@@ -25,12 +25,12 @@ export const AudioProvider = ({ children }) => {
 
   // Language configuration
   const languageConfig = {
-    'en-IN': { code: 'en-IN', voiceNames: ['Google UK English', 'Microsoft Heera'], fallbackCode: 'en-US', rate: 0.9 },
-    'hi-IN': { code: 'hi-IN', voiceNames: ['Google हिन्दी', 'Microsoft Heera - Hindi', 'Lekha', 'Hemant'], fallbackCode: 'en-IN', rate: 0.85 },
-    'ta-IN': { code: 'ta-IN', voiceNames: ['Google தமிழ்', 'Microsoft Heera - Tamil'], fallbackCode: 'en-IN', rate: 0.85 },
-    'te-IN': { code: 'te-IN', voiceNames: ['Google తెలుగు', 'Microsoft Heera - Telugu'], fallbackCode: 'en-IN', rate: 0.85 },
-    'kn-IN': { code: 'kn-IN', voiceNames: ['Google ಕನ್ನಡ', 'Microsoft Heera - Kannada'], fallbackCode: 'en-IN', rate: 0.85 },
-    'ml-IN': { code: 'ml-IN', voiceNames: ['Google മലയാളം', 'Microsoft Heera - Malayalam'], fallbackCode: 'en-IN', rate: 0.85 }
+    'en-IN': { code: 'en-IN', voiceNames: ['Google UK English', 'Microsoft Heera', 'English (India)'], fallbackCode: 'en-US', rate: 0.9 },
+    'hi-IN': { code: 'hi-IN', voiceNames: ['Google हिन्दी', 'Microsoft Heera - Hindi', 'Lekha', 'Hemant', 'Hindi', 'हिन्दी'], fallbackCode: 'en-IN', rate: 0.85 },
+    'ta-IN': { code: 'ta-IN', voiceNames: ['Google தமிழ்', 'Microsoft Heera - Tamil', 'Tamil'], fallbackCode: 'en-IN', rate: 0.85 },
+    'te-IN': { code: 'te-IN', voiceNames: ['Google తెలుగు', 'Microsoft Heera - Telugu', 'Telugu'], fallbackCode: 'en-IN', rate: 0.85 },
+    'kn-IN': { code: 'kn-IN', voiceNames: ['Google ಕನ್ನಡ', 'Microsoft Heera - Kannada', 'Kannada'], fallbackCode: 'en-IN', rate: 0.85 },
+    'ml-IN': { code: 'ml-IN', voiceNames: ['Google മലയാളം', 'Microsoft Heera - Malayalam', 'Malayalam'], fallbackCode: 'en-IN', rate: 0.85 }
   }
 
   useEffect(() => {
@@ -98,38 +98,63 @@ export const AudioProvider = ({ children }) => {
   const speak = (text, lang = currentLanguage) => {
     if (!isAudioEnabled || !synth || !text) return
 
+    // Check if Web Speech API is supported
+    if (!('speechSynthesis' in window)) {
+      console.error('Web Speech API not supported in this browser')
+      return
+    }
+
     synth.cancel()
 
     if (!isVoicesLoaded) {
+      console.log('⏳ Voices not loaded yet, retrying...')
       setTimeout(() => speak(text, lang), 500)
       return
     }
 
     try {
-        const utterance = new SpeechSynthesisUtterance(text)
+      const utterance = new SpeechSynthesisUtterance(text)
       const config = languageConfig[lang] || languageConfig['en-IN']
       
       utterance.lang = config.code
       const voice = findBestVoice(lang)
-      if (voice) utterance.voice = voice
+      if (voice) {
+        utterance.voice = voice
+        console.log(`🗣️ Speaking with: ${voice.name} (${voice.lang})`)
+      } else {
+        console.warn(`⚠️ No voice found for ${lang}, using default`)
+      }
       
       utterance.rate = config.rate
       utterance.pitch = 1
       utterance.volume = 1
 
       utterance.onerror = (event) => {
-        console.error('Speech error:', event.error, event)
+        console.error('❌ Speech error:', event.error, event)
+        
+        // Try fallback to English if Hindi fails
         if (event.error === 'voice-unavailable' || event.error === 'not-allowed') {
-          const defaultUtterance = new SpeechSynthesisUtterance(text)
-          defaultUtterance.lang = 'en-IN'
-          defaultUtterance.rate = 0.9
-          synth.speak(defaultUtterance)
+          console.log('🔄 Trying fallback voice...')
+          const fallbackUtterance = new SpeechSynthesisUtterance(text)
+          fallbackUtterance.lang = 'en-US'
+          fallbackUtterance.rate = 0.9
+          synth.speak(fallbackUtterance)
         }
+      }
+
+      utterance.onstart = () => {
+        console.log(`▶️ Started speaking: "${text.substring(0, 50)}..."`)
+      }
+
+      utterance.onend = () => {
+        console.log('✅ Finished speaking')
       }
 
       synth.speak(utterance)
     } catch (error) {
-      console.error('Error in speak:', error)
+      console.error('❌ Error in speak:', error)
+      // Last resort fallback
+      alert('Audio not available. Please check your browser settings or use a different browser.')
     }
   }
 
