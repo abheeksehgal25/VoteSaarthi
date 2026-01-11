@@ -207,7 +207,7 @@ const seedData = async () => {
       {
         content: {
           'en-IN': '"Election on May 15th, 2026. Polling booths open 7 AM to 6 PM. Carry your Voter ID. - Election Commission of India"',
-          'hi-IN': '"15 मई 2026 को चुनाव। मतदान केंद्र सुबह 7 बजे से शाम 6 बजे तक खुले रहेंगे। अपना मतदाता पहचान पत्र साथ लाएं। - भारत निर्वाचन आयोग"'
+          'hi-IN': '"15 मई 2026 को चुनाव। मतदान केंद्र सुबह 7 बजे से शाम 6 बजे तक खुले रहेंगे। अपना Voter ID (मतदाता पहचान पत्र) साथ लाएं। - भारत निर्वाचन आयोग"'
         },
         type: 'information',
         correctAnswer: 'information',

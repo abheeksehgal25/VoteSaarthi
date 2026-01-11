@@ -14,10 +14,10 @@ import { validateCandidate } from './utils/assetNormalizer.js'
 dotenv.config()
 
 const PARTY_SYMBOLS = {
-  'BJP': '🪷',
-  'AAP': '🧹',
-  'INC': '✋',
-  'BSP': '🐘',
+  'BJP': '🪷',  // Lotus - Official BJP symbol
+  'AAP': '🧹',  // Broom - Official AAP symbol
+  'INC': '✋',  // Hand - Official Congress symbol
+  'BSP': '🐘',  // Elephant - Official BSP symbol
   'Independent': '⭐',
   'Default': '📋'
 }

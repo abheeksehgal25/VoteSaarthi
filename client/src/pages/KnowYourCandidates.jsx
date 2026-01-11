@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAudio } from '../context/AudioContext'
 import AudioToggle from '../components/AudioToggle'
 import api from '../utils/api'
-import { getTranslation, translateAssetRange, translateStateName, translateConstituencyName, translateEducation } from '../utils/translations'
+import { getTranslation, translateAssetRange, translateStateName, translateConstituencyName, translateEducation, formatPartyForAudio } from '../utils/translations'
 
 const KnowYourCandidates = () => {
   const [states, setStates] = useState([])
@@ -99,8 +99,57 @@ const KnowYourCandidates = () => {
 
   const handleCandidateClick = (candidate) => {
     setSelectedCandidate(candidate)
-    const criminalText = candidate.criminalCases ? 'has criminal cases' : 'has no criminal cases'
-    speak(`${candidate.name}. Education: ${candidate.education}. ${criminalText}. Assets: ${candidate.assets}`)
+    
+    // Create comprehensive audio narration
+    const isHindi = currentLanguage === 'hi-IN'
+    const candidateName = isHindi && candidate.nameHi ? candidate.nameHi : candidate.name
+    const partyName = formatPartyForAudio(candidate.party, currentLanguage)
+    
+    // Build the narration
+    let narration = []
+    
+    // Name and party
+    if (isHindi) {
+      narration.push(`${candidateName}, ${partyName} पार्टी से`)
+    } else {
+      narration.push(`${candidateName}, from ${partyName} party`)
+    }
+    
+    // Age
+    if (candidate.age) {
+      narration.push(isHindi ? `उम्र ${candidate.age} साल` : `Age ${candidate.age} years`)
+    }
+    
+    // Education
+    const education = translateEducation(candidate.education, currentLanguage)
+    narration.push(isHindi ? `शिक्षा: ${education}` : `Education: ${education}`)
+    
+    // Criminal cases
+    if (candidate.criminalCases > 0) {
+      narration.push(isHindi ? `${candidate.criminalCases} आपराधिक मामले हैं` : `Has ${candidate.criminalCases} criminal case${candidate.criminalCases > 1 ? 's' : ''}`)
+    } else {
+      narration.push(isHindi ? 'कोई आपराधिक मामला नहीं है' : 'No criminal cases')
+    }
+    
+    // Assets
+    const assets = translateAssetRange(candidate.assets, currentLanguage)
+    narration.push(isHindi ? `संपत्ति: ${assets}` : `Assets: ${assets}`)
+    
+    // Liabilities
+    const liabilities = translateAssetRange(candidate.liabilities, currentLanguage)
+    narration.push(isHindi ? `देनदारियां: ${liabilities}` : `Liabilities: ${liabilities}`)
+    
+    // Previous positions if available
+    if (candidate.previousPositions && candidate.previousPositions.length > 0) {
+      if (isHindi) {
+        narration.push(`पिछले पद: ${candidate.previousPositions.join(', ')}`)
+      } else {
+        narration.push(`Previous positions: ${candidate.previousPositions.join(', ')}`)
+      }
+    }
+    
+    const fullNarration = narration.join('. ')
+    speak(fullNarration, currentLanguage)
   }
 
   return (
@@ -190,7 +239,7 @@ const KnowYourCandidates = () => {
                         setExpandedCandidate(null)
                       } else {
                         setExpandedCandidate(candidate._id)
-                        speak(`${getTranslation('detailsFor', currentLanguage)} ${candidate.name}`)
+                        handleCandidateClick(candidate)
                       }
                     }}
                     className="w-full text-left"

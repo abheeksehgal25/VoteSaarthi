@@ -179,7 +179,7 @@ const VoterHelpAssistant = () => {
                     {/* Listen Again Button */}
                     <button
                       onClick={handleListenAgain}
-                      className="touch-button bg-white text-purple-600 border-2 border-purple-600 hover:bg-purple-50"
+                      className="touch-button bg-white text-purple-600 border-2 border-purple-600 hover:bg-purple-50 px-1"
                       aria-label="Listen to answer again"
                     >
                       <div className="flex items-center justify-center gap-2">

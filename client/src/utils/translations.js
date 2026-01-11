@@ -7,6 +7,7 @@ export const translations = {
     knowYourCandidates: 'Know Your Candidates',
     spotMisinformation: 'Spot Misinformation',
     voterHelp: 'Voter Help Assistant',
+    listenAgain: 'Listen Again',
     back: 'Back to Home',
     
     // KnowYourCandidates
@@ -123,6 +124,7 @@ export const translations = {
     knowYourCandidates: 'अपने उम्मीदवारों को जानें',
     spotMisinformation: 'गलत सूचना पहचानें',
     voterHelp: 'मतदाता सहायक',
+    listenAgain: 'फिर से सुनें',
     back: 'होम पर वापस',
     
     // KnowYourCandidates
@@ -164,7 +166,7 @@ export const translations = {
     step2Title: 'अपना मतदान केंद्र खोजें',
     step2Text: 'जांचें कि आपको वोट डालने के लिए कहां जाना है',
     step3Title: 'अपना पहचान पत्र लाएं',
-    step3Text: 'मतदाता पहचान पत्र या कोई अन्य वैध पहचान पत्र साथ लाएं',
+    step3Text: 'Voter ID (मतदाता पहचान पत्र) या कोई अन्य वैध पहचान पत्र साथ लाएं',
     step4Title: 'अपना वोट डालें',
     step4Text: 'अपने चुने हुए उम्मीदवार के प्रतीक के बगल में बटन दबाएं',
     stepOf: 'चरण {{current}} / {{total}}',
@@ -198,11 +200,11 @@ export const translations = {
     learningToolMessage: 'यह एक शिक्षण उपकरण है। कोई अंक नहीं हैं। प्रत्येक परिदृश्य को समझने के लिए अपना समय लें।',
     
     // Asset/Liability ranges
-    lessThan1Lakh: '< ₹1 लाख',
-    '1To10Lakh': '₹1–10 लाख',
-    '10LakhTo1Crore': '₹10 लाख–1 करोड़',
-    '1To5Crore': '₹1–5 करोड़',
-    '5CrorePlus': '₹5 करोड़+',
+    lessThan1Lakh: '₹1 लाख से कम',
+    '1To10Lakh': '₹1 से 10 लाख',
+    '10LakhTo1Crore': '₹10 लाख से 1 करोड़',
+    '1To5Crore': '₹1 से 5 करोड़',
+    '5CrorePlus': '₹5 करोड़ से ज्यादा',
     
     // State names
     delhi: 'दिल्ली',
@@ -324,6 +326,32 @@ export const translateEducation = (education, language) => {
   
   const key = educationMap[education]
   return key ? getTranslation(key, language) : education
+}
+
+// Helper function to format party names for audio pronunciation
+// Converts abbreviations to letter-by-letter pronunciation or full names
+export const formatPartyForAudio = (party, language) => {
+  const isHindi = language === 'hi-IN'
+  
+  // Mapping of abbreviations to their pronunciation
+  const partyPronunciation = {
+    'BJP': isHindi ? 'बी जे पी' : 'B J P',
+    'INC': isHindi ? 'आई एन सी' : 'I N C',
+    'AAP': isHindi ? 'ए ए पी' : 'A A P',
+    'BSP': isHindi ? 'बी एस पी' : 'B S P',
+    'IND': isHindi ? 'निर्दलीय' : 'Independent',
+    'TMC': isHindi ? 'टी एम सी' : 'T M C',
+    'DMK': isHindi ? 'डी एम के' : 'D M K',
+    'NCP': isHindi ? 'एन सी पी' : 'N C P',
+    'CPI(M)': isHindi ? 'सी पी आई एम' : 'C P I M',
+    'CPI': isHindi ? 'सी पी आई' : 'C P I',
+    'SP': isHindi ? 'एस पी' : 'S P',
+    'RJD': isHindi ? 'आर जे डी' : 'R J D',
+    'JD(U)': isHindi ? 'जे डी यू' : 'J D U'
+  }
+  
+  // Return the pronunciation if found, otherwise return the original party name
+  return partyPronunciation[party] || party
 }
 
 export const getTranslation = (key, language) => {

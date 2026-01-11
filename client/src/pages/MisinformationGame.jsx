@@ -20,6 +20,29 @@ const MisinformationGame = () => {
     fetchScenarios()
   }, [])
 
+  useEffect(() => {
+    // Speak the scenario content when scenario changes or language changes
+    if (scenarios.length > 0 && !showExplanation) {
+      const scenario = scenarios[currentIndex]
+      const content = typeof scenario.content === 'object' 
+        ? scenario.content[currentLanguage] || scenario.content['en-IN'] 
+        : scenario.content
+      
+      const questionText = getTranslation('whatDoYouThink', currentLanguage)
+      speak(`${content}. ${questionText}`, currentLanguage)
+    }
+  }, [currentIndex, currentLanguage, scenarios, showExplanation])
+
+  const handleListenAgain = () => {
+    const scenario = scenarios[currentIndex]
+    const content = typeof scenario.content === 'object' 
+      ? scenario.content[currentLanguage] || scenario.content['en-IN'] 
+      : scenario.content
+    
+    const questionText = getTranslation('whatDoYouThink', currentLanguage)
+    speak(`${content}. ${questionText}`, currentLanguage)
+  }
+
   const fetchScenarios = async () => {
     try {
       const response = await api.get('/api/game/scenarios')
@@ -210,7 +233,7 @@ const MisinformationGame = () => {
           </div>
 
           {/* Content */}
-          <div className="bg-white border-2 border-gray-300 rounded-2xl p-6 mb-8">
+          <div className="bg-white border-2 border-gray-300 rounded-2xl p-6 mb-6">
             {scenario.content ? (
               <p className="text-touch-lg leading-relaxed">
                 {typeof scenario.content === 'object' ? scenario.content[currentLanguage] || scenario.content['en-IN'] : scenario.content}
@@ -221,6 +244,20 @@ const MisinformationGame = () => {
               </p>
             )}
           </div>
+
+          {/* Listen Again Button */}
+          {!showExplanation && (
+            <div className="flex justify-center mb-6">
+              <button
+                onClick={handleListenAgain}
+                className="touch-button bg-green-500 text-white hover:bg-green-600 flex items-center gap-2 px-2 py-2"
+                aria-label="Listen to this scenario again"
+              >
+                <span className="text-xl">🔊</span>
+                <span>{getTranslation('listenAgain', currentLanguage)}</span>
+              </button>
+            </div>
+          )}
 
           {/* Question */}
           <h2 className="text-touch-xl font-bold mb-6 text-center">

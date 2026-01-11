@@ -247,13 +247,15 @@ class RealDataService {
    */
   getPartySymbol(party) {
     const symbols = {
-      'BJP': '🪷',
+      'BJP': '🪷',  // Lotus - Official BJP symbol
       'Bharatiya Janata Party': '🪷',
-      'INC': '✋',
+      'INC': '✋',  // Hand - Official Congress symbol
       'Congress': '✋',
       'Indian National Congress': '✋',
-      'AAP': '🧹',
+      'AAP': '🧹',  // Broom - Official AAP symbol
       'Aam Aadmi Party': '🧹',
+      'BSP': '🐘',  // Elephant - Official BSP symbol
+      'Bahujan Samaj Party': '🐘',
       'TMC': '🌺',
       'Trinamool Congress': '🌺',
       'DMK': '🌅',
@@ -262,10 +264,10 @@ class RealDataService {
       'NCP': '⏰',
       'CPI(M)': '🔨',
       'CPI': '🌾',
-      'BSP': '🐘',
       'SP': '🚲',
       'JD(U)': '↗️',
       'RJD': '🏮',
+      'IND': '⭐',
       'Independent': '⭐'
     }
     return symbols[party] || '⭐'

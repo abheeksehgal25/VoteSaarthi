@@ -10,15 +10,15 @@ const getSteps = (lang) => {
   return [
     {
       id: 1,
-      title: isHindi ? 'अपना मतदाता पहचान पत्र लें' : 'Get Your Voter ID',
-      description: isHindi ? 'मतदान केंद्र पर अपना मतदाता पहचान पत्र लाएं' : 'Bring your Voter ID card to the polling booth',
+      title: isHindi ? 'अपना Voter ID (मतदाता पहचान पत्र) लें' : 'Get Your Voter ID',
+      description: isHindi ? 'चुनाव के दिन इसकी ज़रूरत होगी' : 'Bring your Voter ID card to the polling booth',
       audioText: isHindi 
-        ? 'चरण 1: अपना मतदाता पहचान पत्र लें। चुनाव के दिन मतदान केंद्र पर अपना मतदाता पहचान पत्र लाएं।'
+        ? 'चरण 1: अपना Voter ID यानि मतदाता पहचान पत्र लें। यह चुनाव के दिन मतदान केंद्र पर आपकी पहचान के लिए ज़रूरी है।'
         : 'Step 1: Get Your Voter ID. Bring your Voter ID card to the polling booth on election day.',
       icon: '🪪',
       details: isHindi ? [
         'जांच लें कि आपका नाम मतदाता सूची में है',
-        'अपना मतदाता पहचान पत्र साथ रखें',
+        'अपना Voter ID (मतदाता पहचान पत्र) साथ रखें',
         'आप आधार, पासपोर्ट या ड्राइविंग लाइसेंस जैसे अन्य स्वीकृत पहचान पत्र भी इस्तेमाल कर सकते हैं'
       ] : [
         'Check your name is on the voter list',
@@ -36,7 +36,7 @@ const getSteps = (lang) => {
       icon: '🏢',
       details: isHindi ? [
         'अपने निर्धारित मतदान केंद्र पर लाइन में लगें',
-        'अधिकारी को अपना मतदाता पहचान पत्र दिखाएं',
+        'अधिकारी को अपना Voter ID (मतदाता पहचान पत्र) दिखाएं',
         'अधिकारी आपकी उंगली पर अमिट स्याही लगाएंगे',
         'यह एक से अधिक बार मतदान को रोकता है'
       ] : [
@@ -121,6 +121,10 @@ const HowVotingWorks = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1)
     }
+  }
+
+  const handleListenAgain = () => {
+    speak(steps[currentStep].audioText, currentLanguage)
   }
 
   const step = steps[currentStep]
@@ -215,6 +219,18 @@ const HowVotingWorks = () => {
                     </li>
                   ))}
                 </ul>
+              </div>
+
+              {/* Listen Again Button */}
+              <div className="flex justify-center mt-6">
+                <button
+                  onClick={handleListenAgain}
+                  className="touch-button bg-green-500 text-white hover:bg-green-600 flex items-center gap-2 px-2 py-2"
+                  aria-label="Listen to this step again"
+                >
+                  <span className="text-xl">🔊</span>
+                  <span>{getTranslation('listenAgain', currentLanguage)}</span>
+                </button>
               </div>
             </div>
           </div>

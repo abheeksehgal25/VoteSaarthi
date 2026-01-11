@@ -45,7 +45,7 @@ const seedScenarios = async () => {
           'hi-IN': '"ब्रेकिंग: मौसम के कारण चुनाव की तारीख अगले सप्ताह के लिए बदल दी गई!"'
         },
         type: 'social',
-        correctAnswer: 'false',
+        correctAnswer: 'misleading',
         explanation: {
           'en-IN': 'This is false. Election dates are official and announced by the Election Commission. Always verify from official sources.',
           'hi-IN': 'यह गलत है। चुनाव की तारीखें आधिकारिक होती हैं और चुनाव आयोग द्वारा घोषित की जाती हैं। हमेशा आधिकारिक स्रोतों से सत्यापित करें।'
@@ -67,7 +67,7 @@ const seedScenarios = async () => {
           'hi-IN': '"अगर आपने वोट नहीं किया, तो आपका नाम मतदाता सूची से हमेशा के लिए हटा दिया जाएगा!"'
         },
         type: 'whatsapp',
-        correctAnswer: 'false',
+        correctAnswer: 'misleading',
         explanation: {
           'en-IN': 'This is false. Your name stays on the voter list even if you don\'t vote. Voting is your right, not a requirement.',
           'hi-IN': 'यह गलत है। आपका नाम मतदाता सूची में रहता है भले ही आप वोट न करें। वोट देना आपका अधिकार है, अनिवार्यता नहीं।'
@@ -86,7 +86,7 @@ const seedScenarios = async () => {
       {
         content: {
           'en-IN': '"Election on May 15th, 2026. Polling booths open 7 AM to 6 PM. Carry your Voter ID. - Election Commission of India"',
-          'hi-IN': '"15 मई 2026 को चुनाव। मतदान केंद्र सुबह 7 बजे से शाम 6 बजे तक खुले रहेंगे। अपना मतदाता पहचान पत्र साथ लाएं। - भारत निर्वाचन आयोग"'
+          'hi-IN': '"15 मई 2026 को चुनाव। मतदान केंद्र सुबह 7 बजे से शाम 6 बजे तक खुले रहेंगे। अपना Voter ID (मतदाता पहचान पत्र) साथ लाएं। - भारत निर्वाचन आयोग"'
         },
         type: 'information',
         correctAnswer: 'information',
