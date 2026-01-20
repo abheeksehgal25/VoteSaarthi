@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAudio } from '../context/AudioContext'
-import AudioToggle from '../components/AudioToggle'
+
 import { helpCategories } from '../data/voterHelpData'
 
 const VoterHelpAssistant = () => {
@@ -9,7 +9,7 @@ const VoterHelpAssistant = () => {
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [selectedQuestion, setSelectedQuestion] = useState(null)
   const navigate = useNavigate()
-  const { speak, currentLanguage } = useAudio()
+  const { speak, stopSpeaking, currentLanguage } = useAudio()
 
   const categories = helpCategories[currentLanguage] || helpCategories['en-IN']
 
@@ -18,6 +18,11 @@ const VoterHelpAssistant = () => {
       ? 'मतदाता सहायता सहायक में आपका स्वागत है। मतदान के बारे में जानने के लिए एक श्रेणी चुनें।'
       : 'Welcome to Voter Help Assistant. Select a category to learn about voting.'
     speak(welcomeText, currentLanguage)
+    
+    // Cleanup: Stop speaking when component unmounts
+    return () => {
+      stopSpeaking()
+    }
   }, [])
 
   const handleCategoryClick = (category) => {
@@ -60,22 +65,14 @@ const VoterHelpAssistant = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
-      {/* Header */}
-      <header className="flex justify-between items-center p-4 border-b border-gray-200 bg-white sticky top-0 z-10">
-        <button
-          onClick={handleBack}
-          className="touch-target text-purple-600 hover:text-purple-700"
-          aria-label="Go back"
-        >
-          <span className="text-3xl">←</span>
-        </button>
-        <h1 className="text-touch-xl font-bold text-center flex-1">
-          {currentLanguage === 'hi-IN' ? 'मतदाता सहायता' : 'Voter Help Assistant'}
-        </h1>
-        <AudioToggle />
-      </header>
-
       <main className="container mx-auto px-4 py-8 max-w-4xl">
+        {/* Page Title */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold text-purple-600 mb-2">
+            {currentLanguage === 'hi-IN' ? 'मतदाता सहायता' : 'Voter Help Assistant'}
+          </h1>
+        </div>
+
         {/* Categories View */}
         {view === 'categories' && (
           <div>

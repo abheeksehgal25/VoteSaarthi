@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAudio } from '../context/AudioContext'
-import AudioToggle from '../components/AudioToggle'
 import api from '../utils/api'
 import { getTranslation } from '../utils/translations'
 
@@ -12,12 +11,17 @@ const MisinformationGame = () => {
   const [showExplanation, setShowExplanation] = useState(false)
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
-  const { speak, currentLanguage } = useAudio()
+  const { speak, stopSpeaking, currentLanguage } = useAudio()
 
   useEffect(() => {
     const text = getTranslation('gameSubtitle', currentLanguage)
     speak(text, currentLanguage)
     fetchScenarios()
+    
+    // Cleanup: Stop speaking when component unmounts
+    return () => {
+      stopSpeaking()
+    }
   }, [])
 
   useEffect(() => {
@@ -187,21 +191,13 @@ const MisinformationGame = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
-      {/* Header */}
-      <header className="flex justify-between items-center p-4 border-b border-gray-200">
-        <button
-          onClick={() => navigate('/')}
-          className="touch-target text-amber-600 hover:text-amber-700"
-          aria-label="Go back to home"
-        >
-          <span className="text-3xl">←</span>
-        </button>
-        <h1 className="text-touch-xl font-bold">{getTranslation('gameTitle', currentLanguage)}</h1>
-        <AudioToggle />
-      </header>
-
       {/* Progress */}
       <div className="px-4 py-6">
+        <div className="text-center mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-amber-600 mb-2">
+            {getTranslation('gameTitle', currentLanguage)}
+          </h1>
+        </div>
         <div className="flex justify-center gap-2">
           {scenarios.map((_, index) => (
             <div

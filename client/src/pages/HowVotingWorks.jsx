@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAudio } from '../context/AudioContext'
-import AudioToggle from '../components/AudioToggle'
 import { getTranslation } from '../utils/translations'
 
 const getSteps = (lang) => {
@@ -96,24 +95,25 @@ const getSteps = (lang) => {
 const HowVotingWorks = () => {
   const [currentStep, setCurrentStep] = useState(0)
   const navigate = useNavigate()
-  const { speak, currentLanguage } = useAudio()
+  const { speak, stopSpeaking, currentLanguage } = useAudio()
   
   const steps = getSteps(currentLanguage)
 
   useEffect(() => {
     // Speak the current step when it changes
     speak(steps[currentStep].audioText, currentLanguage)
+    
+    // Cleanup: Stop speaking when component unmounts
+    return () => {
+      stopSpeaking()
+    }
   }, [currentStep, currentLanguage])
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1)
     } else {
-      const text = currentLanguage === 'hi-IN'
-        ? 'आपने सभी चरण पूरे कर लिए। घर पर वापस जा रहे हैं।'
-        : 'You have completed all steps. Returning to home.'
-      speak(text, currentLanguage)
-      setTimeout(() => navigate('/'), 1000)
+      navigate('/')
     }
   }
 
@@ -131,19 +131,6 @@ const HowVotingWorks = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      {/* Header */}
-      <header className="flex justify-between items-center p-4 border-b border-gray-200">
-        <button
-          onClick={() => navigate('/')}
-          className="touch-target text-primary hover:text-primary-dark"
-          aria-label="Go back to home"
-        >
-          <span className="text-3xl">←</span>
-        </button>
-        <h1 className="text-touch-xl font-bold">{getTranslation('votingTitle', currentLanguage)}</h1>
-        <AudioToggle />
-      </header>
-
       {/* Progress Indicator */}
       <div className="px-4 py-6">
         <div className="flex justify-center gap-2">

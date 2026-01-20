@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAudio } from '../context/AudioContext'
-import AudioToggle from '../components/AudioToggle'
 import { getTranslation } from '../utils/translations'
 
 const getCards = (lang) => {
@@ -16,8 +15,8 @@ const getCards = (lang) => {
         : 'In the current system, State elections and Lok Sabha elections are conducted at different times.\n\n• State elections are held to elect MLAs\n• Lok Sabha elections are held to elect MPs\n• Each election follows its own schedule\n• Voters participate in elections as and when they are held',
       icon: '🏛️',
       audioText: isHindi
-        ? 'कार्ड 1: वर्तमान चुनाव प्रणाली। वर्तमान प्रणाली में, राज्य चुनाव और लोकसभा चुनाव अलग-अलग समय पर आयोजित किए जाते हैं। राज्य चुनाव विधायकों को चुनने के लिए होते हैं। लोकसभा चुनाव सांसदों को चुनने के लिए होते हैं। प्रत्येक चुनाव अपने समय के अनुसार होता है। मतदाता चुनाव में भाग लेते हैं जब वे आयोजित होते हैं।'
-        : 'Card 1: Current Election System. In the current system, State elections and Lok Sabha elections are conducted at different times. State elections are held to elect MLAs. Lok Sabha elections are held to elect MPs. Each election follows its own schedule. Voters participate in elections as and when they are held.'
+        ? 'वर्तमान चुनाव प्रणाली। वर्तमान प्रणाली में, राज्य चुनाव और लोकसभा चुनाव अलग-अलग समय पर आयोजित किए जाते हैं। राज्य चुनाव विधायकों को चुनने के लिए होते हैं। लोकसभा चुनाव सांसदों को चुनने के लिए होते हैं। प्रत्येक चुनाव अपने समय के अनुसार होता है। मतदाता चुनाव में भाग लेते हैं जब वे आयोजित होते हैं।'
+        : 'Current Election System. In the current system, State elections and Lok Sabha elections are conducted at different times. State elections are held to elect MLAs. Lok Sabha elections are held to elect MPs. Each election follows its own schedule. Voters participate in elections as and when they are held.'
     },
     {
       id: 2,
@@ -27,8 +26,8 @@ const getCards = (lang) => {
         : 'Simultaneous elections refer to conducting State elections and Lok Sabha elections at the same time.\n\n• Voters may vote for State and National representatives during the same period\n• Election schedules are aligned\n• The voting process itself remains the same\n\nDifferent views exist on this approach.\nThis platform explains the process without supporting or opposing any view.',
       icon: '🗳️',
       audioText: isHindi
-        ? 'कार्ड 2: एक साथ चुनाव। एक साथ चुनाव का मतलब है राज्य चुनाव और लोकसभा चुनाव एक ही समय पर करना। मतदाता एक ही अवधि में राज्य और राष्ट्रीय प्रतिनिधियों के लिए मतदान कर सकते हैं। चुनाव कार्यक्रम समन्वित होते हैं। मतदान प्रक्रिया स्वयं वही रहती है। इस विषय पर अलग-अलग विचार मौजूद हैं। यह मंच किसी भी विचार का समर्थन या विरोध किए बिना प्रक्रिया को समझाता है।'
-        : 'Card 2: Simultaneous Elections. Simultaneous elections refer to conducting State elections and Lok Sabha elections at the same time. Voters may vote for State and National representatives during the same period. Election schedules are aligned. The voting process itself remains the same. Different views exist on this approach. This platform explains the process without supporting or opposing any view.'
+        ? 'एक साथ चुनाव। एक साथ चुनाव का मतलब है राज्य चुनाव और लोकसभा चुनाव एक ही समय पर करना। मतदाता एक ही अवधि में राज्य और राष्ट्रीय प्रतिनिधियों के लिए मतदान कर सकते हैं। चुनाव कार्यक्रम समन्वित होते हैं। मतदान प्रक्रिया स्वयं वही रहती है। इस विषय पर अलग-अलग विचार मौजूद हैं। यह मंच किसी भी विचार का समर्थन या विरोध किए बिना प्रक्रिया को समझाता है।'
+        : 'Simultaneous Elections. Simultaneous elections refer to conducting State elections and Lok Sabha elections at the same time. Voters may vote for State and National representatives during the same period. Election schedules are aligned. The voting process itself remains the same. Different views exist on this approach. This platform explains the process without supporting or opposing any view.'
     },
     {
       id: 3,
@@ -38,8 +37,8 @@ const getCards = (lang) => {
         : 'Regardless of the election system:\n\n• Voting is done using EVMs\n• Voting remains secret and confidential\n• Constituency-based representation remains unchanged\n• Citizens cast one vote per election\n• Voter rights and eligibility stay the same',
       icon: '⚖️',
       audioText: isHindi
-        ? 'कार्ड 3: क्या नहीं बदलता। चुनाव प्रणाली की परवाह किए बिना: मतदान ईवीएम के माध्यम से किया जाता है। मतदान गुप्त और गोपनीय रहता है। निर्वाचन क्षेत्र आधारित प्रतिनिधित्व अपरिवर्तित रहता है। नागरिक प्रति चुनाव एक वोट डालते हैं। मतदाता अधिकार और पात्रता समान रहती है।'
-        : 'Card 3: What Does Not Change. Regardless of the election system: Voting is done using EVMs. Voting remains secret and confidential. Constituency-based representation remains unchanged. Citizens cast one vote per election. Voter rights and eligibility stay the same.'
+        ? 'क्या नहीं बदलता। चुनाव प्रणाली की परवाह किए बिना: मतदान ईवीएम के माध्यम से किया जाता है। मतदान गुप्त और गोपनीय रहता है। निर्वाचन क्षेत्र आधारित प्रतिनिधित्व अपरिवर्तित रहता है। नागरिक प्रति चुनाव एक वोट डालते हैं। मतदाता अधिकार और पात्रता समान रहती है।'
+        : 'What Does Not Change. Regardless of the election system: Voting is done using EVMs. Voting remains secret and confidential. Constituency-based representation remains unchanged. Citizens cast one vote per election. Voter rights and eligibility stay the same.'
     },
     {
       id: 4,
@@ -49,15 +48,15 @@ const getCards = (lang) => {
         : 'When elections happen at different times or together, clear voter understanding becomes essential.\n\n• Reduces confusion during elections\n• Helps voters participate confidently\n• Prevents misinformation and rumours\n• Strengthens democratic participation\n\nThis platform focuses on education and awareness, not opinions.',
       icon: '📚',
       audioText: isHindi
-        ? 'कार्ड 4: मतदाता जागरूकता क्यों महत्वपूर्ण है। जब चुनाव अलग-अलग समय पर या एक साथ होते हैं, स्पष्ट मतदाता समझ आवश्यक हो जाती है। चुनाव के दौरान भ्रम को कम करता है। मतदाताओं को आत्मविश्वास से भाग लेने में मदद करता है। गलत सूचना और अफवाहों को रोकता है। लोकतांत्रिक भागीदारी को मजबूत करता है। यह मंच शिक्षा और जागरूकता पर केंद्रित है, राय पर नहीं।'
-        : 'Card 4: Why Voter Awareness Matters. When elections happen at different times or together, clear voter understanding becomes essential. Reduces confusion during elections. Helps voters participate confidently. Prevents misinformation and rumours. Strengthens democratic participation. This platform focuses on education and awareness, not opinions.'
+        ? 'मतदाता जागरूकता क्यों महत्वपूर्ण है। जब चुनाव अलग-अलग समय पर या एक साथ होते हैं, स्पष्ट मतदाता समझ आवश्यक हो जाती है। चुनाव के दौरान भ्रम को कम करता है। मतदाताओं को आत्मविश्वास से भाग लेने में मदद करता है। गलत सूचना और अफवाहों को रोकता है। लोकतांत्रिक भागीदारी को मजबूत करता है। यह मंच शिक्षा और जागरूकता पर केंद्रित है, राय पर नहीं।'
+        : 'Why Voter Awareness Matters. When elections happen at different times or together, clear voter understanding becomes essential. Reduces confusion during elections. Helps voters participate confidently. Prevents misinformation and rumours. Strengthens democratic participation. This platform focuses on education and awareness, not opinions.'
     }
   ]
 }
 
 const ElectionCycles = () => {
   const navigate = useNavigate()
-  const { speak, currentLanguage } = useAudio()
+  const { speak, stopSpeaking, currentLanguage } = useAudio()
   const [currentCard, setCurrentCard] = useState(0)
   
   const cards = getCards(currentLanguage)
@@ -69,6 +68,11 @@ const ElectionCycles = () => {
       setTimeout(() => {
         speak(card.audioText, currentLanguage)
       }, 300)
+    }
+    
+    // Cleanup: Stop speaking when component unmounts
+    return () => {
+      stopSpeaking()
     }
   }, [currentCard, currentLanguage])
 
@@ -96,18 +100,6 @@ const ElectionCycles = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      {/* Header */}
-      <header className="flex justify-between items-center p-4 bg-white shadow-sm">
-        <button
-          onClick={handleBack}
-          className="touch-target p-3 rounded-lg hover:bg-neutral-light"
-          aria-label={currentLanguage === 'hi-IN' ? 'वापस जाएं' : 'Go back'}
-        >
-          <span className="text-2xl">←</span>
-        </button>
-        <AudioToggle />
-      </header>
-
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 max-w-2xl">
         {/* Page Title */}

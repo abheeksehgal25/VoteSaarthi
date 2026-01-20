@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAudio } from '../context/AudioContext'
-import AudioToggle from '../components/AudioToggle'
 import api from '../utils/api'
 import { getTranslation, translateAssetRange, translateStateName, translateConstituencyName, translateEducation, formatPartyForAudio } from '../utils/translations'
 
@@ -15,12 +14,17 @@ const KnowYourCandidates = () => {
   const [expandedCandidate, setExpandedCandidate] = useState(null)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const { speak, currentLanguage } = useAudio()
+  const { speak, stopSpeaking, currentLanguage } = useAudio()
 
   useEffect(() => {
     const text = getTranslation('candidatesSubtitle', currentLanguage)
     speak(text, currentLanguage)
     fetchStates()
+    
+    // Cleanup: Stop speaking when component unmounts
+    return () => {
+      stopSpeaking()
+    }
   }, [])
 
   const fetchStates = async () => {
@@ -154,20 +158,14 @@ const KnowYourCandidates = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
-      {/* Header */}
-      <header className="flex justify-between items-center p-4 border-b border-gray-200">
-        <button
-          onClick={() => navigate('/')}
-          className="touch-target text-secondary hover:text-secondary-dark"
-          aria-label="Go back to home"
-        >
-          <span className="text-3xl">←</span>
-        </button>
-        <h1 className="text-touch-xl font-bold">{getTranslation('candidatesTitle', currentLanguage)}</h1>
-        <AudioToggle />
-      </header>
-
       <main className="container mx-auto px-4 py-8 max-w-4xl">
+        {/* Page Title */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold text-secondary mb-2">
+            {getTranslation('candidatesTitle', currentLanguage)}
+          </h1>
+        </div>
+
         {/* Selection Section */}
         <div className="card-elevated mb-8">
           <h2 className="text-touch-xl font-bold mb-6">{currentLanguage === 'hi-IN' ? 'अपना क्षेत्र चुनें' : 'Select Your Area'}</h2>

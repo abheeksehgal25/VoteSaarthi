@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { AudioProvider } from './context/AudioContext'
+import Navbar from './components/Navbar'
 import HomePage from './pages/HomePage'
 import HowVotingWorks from './pages/HowVotingWorks'
 import KnowYourCandidates from './pages/KnowYourCandidates'
@@ -11,6 +12,7 @@ function App() {
   return (
     <AudioProvider>
       <Router>
+        <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/how-voting-works" element={<HowVotingWorks />} />
